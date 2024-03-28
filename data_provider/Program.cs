@@ -1,2 +1,15 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿
+
+using data_provider;
+
+namespace DataProvider;
+
+public abstract class DataProvider
+{
+    public static DataProvider Instance { get; }
+    public abstract void RecordVolumeInfo(VolumeInfo volumeInfo);
+    private DataProvider()
+    {
+
+    }
+}
