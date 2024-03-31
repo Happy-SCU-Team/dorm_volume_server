@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace data_provider;
 
-public class DormInfo
+public class DataTypes
 {
     public string Account { get; set; }
 }
