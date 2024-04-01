@@ -8,4 +8,8 @@
     <PublishAot>true</PublishAot>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\data_provider\data_provider.csproj" />
+  </ItemGroup>
+
 </Project>

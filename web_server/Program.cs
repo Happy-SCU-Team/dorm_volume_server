@@ -1,35 +1,43 @@
 using System.Text.Json.Serialization;
+namespace web_server;
 
-var builder = WebApplication.CreateSlimBuilder(args);
 
-builder.Services.ConfigureHttpJsonOptions(options =>
+public class Server
 {
-    options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
-});
+    public static void Launch(DataProvider.DataProvider provider)
+    {
+        var builder = WebApplication.CreateSlimBuilder();
 
-var app = builder.Build();
+        builder.Services.ConfigureHttpJsonOptions(options =>
+        {
+            var chain=options.SerializerOptions.TypeInfoResolverChain;
+            chain.Insert(0, UpdateAccountNameContext.Default);
+            chain.Insert(0, UpdateScheduleContext.Default);
+            chain.Insert(0,SegmentContext.Default);
 
-var sampleTodos = new Todo[] {
-    new(1, "Walk the dog"),
-    new(2, "Do the dishes", DateOnly.FromDateTime(DateTime.Now)),
-    new(3, "Do the laundry", DateOnly.FromDateTime(DateTime.Now.AddDays(1))),
-    new(4, "Clean the bathroom"),
-    new(5, "Clean the car", DateOnly.FromDateTime(DateTime.Now.AddDays(2)))
-};
+        });
 
-var todosApi = app.MapGroup("/todos");
-todosApi.MapGet("/", () => sampleTodos);
-todosApi.MapGet("/{id}", (int id) =>
-    sampleTodos.FirstOrDefault(a => a.Id == id) is { } todo
-        ? Results.Ok(todo)
-        : Results.NotFound());
+        var app = builder.Build();
+        //update
+        var updateApi = app.MapGroup("/update");
+        updateApi.MapPost("/account", (UpdateAccountName updateAccount) => {
+            provider.UpdateAccountName(updateAccount.account,updateAccount.new_account);
+        });
+        updateApi.MapPost("/schedule", (UpdateSchedule updateSchedule) => {
+            provider.UpdateScheduleSegment(updateSchedule.account,updateSchedule.segments);
+        });
 
-app.Run();
+        //check
+        var checkApi = app.MapGroup("/check");
+        checkApi.MapGet("/account/[q]",(string name) =>{
+            return provider.CheckAccountExistance(name);
+        });
 
-public record Todo(int Id, string? Title, DateOnly? DueBy = null, bool IsComplete = false);
 
-[JsonSerializable(typeof(Todo[]))]
-internal partial class AppJsonSerializerContext : JsonSerializerContext
-{
-
+        app.Run();
+    }
 }
+
+
+
+

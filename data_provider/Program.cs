@@ -1,6 +1,6 @@
 ﻿
 
-using data_provider;
+
 
 namespace DataProvider;
 
@@ -8,7 +8,7 @@ public abstract class DataProvider
 {
     public static DataProvider Instance { get; }
     public abstract void RecordVolumeInfo(VolumeInfo volumeInfo);
-    public abstract void UpdateScheduleSegment(ScheduleSegment[] scheduleSegment);
+    public abstract void UpdateScheduleSegment(string account,ScheduleSegment[] scheduleSegment);
     public bool UpdateAccountName(string account, string new_name)
     {
         if (CheckAccountExistance(new_name))

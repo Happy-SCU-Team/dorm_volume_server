@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace data_provider;
+namespace DataProvider;
 
 public class DataTypes
 {
