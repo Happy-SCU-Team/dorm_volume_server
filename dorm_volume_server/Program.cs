@@ -2,10 +2,16 @@
 
 using DataProvider;
 
-var dataProvider=new SimpleDataProvider();
+var dataProvider=new SimpleDataProvider(isDebug:true);
 
-//add test member
-dataProvider.addTestMember();
+
+
+Console.WriteLine("---Accounts---");
+foreach(var i in dataProvider.GetAccounts())
+{
+    Console.WriteLine(i);
+}
+Console.WriteLine("--------------");
 
 var webServerThread = new Thread(() => {
     web_server.Server.Launch(dataProvider);

@@ -6,10 +6,10 @@ namespace DataProvider;
 
 public abstract class DataProvider
 {
-    public event EventHandler<SettingChangedEvent> OnSettingChanged;
+    public event EventHandler<SettingChangedEvent>? OnSettingChanged;
     protected void InvokeSettingChanged(SettingChangedEvent @event)
     {
-        OnSettingChanged.Invoke(this, @event);
+        OnSettingChanged?.Invoke(this, @event);
     }
     protected void InvokeSettingChanged(string account,SettingChangedType type)
     {
@@ -39,6 +39,7 @@ public abstract class DataProvider
         return false;
         
     }
+    public abstract IEnumerable<string> GetAccounts();
     public string? UpdateAccountName(string account, string new_name)
     {
         if(string.IsNullOrEmpty(new_name)) {
