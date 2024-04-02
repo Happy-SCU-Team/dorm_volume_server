@@ -6,17 +6,20 @@ namespace DataProvider;
 
 public abstract class DataProvider
 {
-    public static DataProvider Instance { get; }
     public abstract void RecordVolumeInfo(string account,VolumeInfo volumeInfo);
     public bool UpdateScheduleSegment(string account,ScheduleSegment[] scheduleSegment)
     {
+        if (scheduleSegment.Length==0)
+        {
+            return false;
+        }
         int max_time = 7 * 24 *60;
-        bool flag = scheduleSegment[0].start>=0;
-        flag &= scheduleSegment[scheduleSegment.Length-1].end<max_time;
+        bool flag = scheduleSegment[0].start_time>=0;
+        flag &= scheduleSegment[scheduleSegment.Length-1].end_time<max_time;
         for(int i = 0;i<scheduleSegment.Length-1 && flag;i++)
         {
-            flag &= scheduleSegment[i].start<scheduleSegment[i].end;
-            flag &= scheduleSegment[i].end < scheduleSegment[i+1].start;
+            flag &= scheduleSegment[i].start_time<scheduleSegment[i].end_time;
+            flag &= scheduleSegment[i].end_time < scheduleSegment[i+1].start_time;
         }
         if(flag)
         {
@@ -26,14 +29,17 @@ public abstract class DataProvider
         return false;
         
     }
-    public bool UpdateAccountName(string account, string new_name)
+    public string? UpdateAccountName(string account, string new_name)
     {
+        if(string.IsNullOrEmpty(new_name)) {
+            return "This name is invalid";
+        }
         if (CheckAccountExistance(new_name))
         {
-            updateAccountNameDirectly(account, new_name);
-            return false;
+            return "this name already exists";
         }
-        return true;
+        updateAccountNameDirectly(account, new_name);
+        return null;
     }
     public bool register(string account)
     {
@@ -53,7 +59,14 @@ public abstract class DataProvider
     public abstract bool CheckAccountExistance(string account);
 
     public abstract ScheduleSegment[] GetScheduleSegments(string account);
-    protected DataProvider(){}
+    public DataProvider(){}
+    public void addTestMember()
+    {
+        register("西苑6舍五单元101");
+        register("西苑6舍五单元102");
+        register("西苑6舍五单元103");
+        register("west_dorm");
+    }
 
     //----------private------------
     protected abstract void updateAccountNameDirectly(string account, string new_name);

@@ -9,4 +9,9 @@
     <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\data_provider\data_provider.csproj" />
+    <ProjectReference Include="..\web_server\web_server.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -4,7 +4,7 @@ namespace web_server;
 
 public record BaseJson
 {
-    public string account=string.Empty;
+    public string account { set; get; } = string.Empty;
 }
 [JsonSerializable(typeof(BaseJson))]
 internal partial class BaseJsonContext : JsonSerializerContext
@@ -14,7 +14,7 @@ internal partial class BaseJsonContext : JsonSerializerContext
 
 public record UpdateAccountName : BaseJson
 {
-    public string new_account;
+    public string new_account { set; get; }=string.Empty;
 }
 [JsonSerializable(typeof(UpdateAccountName))]
 internal partial class UpdateAccountNameContext : JsonSerializerContext
@@ -24,7 +24,7 @@ internal partial class UpdateAccountNameContext : JsonSerializerContext
 
 public record UpdateSchedule : BaseJson
 {
-    public DataProvider.ScheduleSegment[] segments;
+    public DataProvider.ScheduleSegment[] segments { set; get; }
 }
 [JsonSerializable(typeof(UpdateSchedule))]
 internal partial class UpdateScheduleContext : JsonSerializerContext

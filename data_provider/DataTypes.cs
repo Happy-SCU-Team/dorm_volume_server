@@ -21,6 +21,6 @@ public struct VolumeInfo
 }
 public struct ScheduleSegment
 {//start,end以分钟为单位，以每一周的第一天为0点
-    public int start;
-    public int end;
+    public int start_time { set; get; }
+    public int end_time { set; get; }
 }

@@ -9,6 +9,7 @@ namespace DataProvider;
 
 public class SimpleDataProvider : DataProvider
 {
+    
     private Dictionary<string, SimpleIndividualData> data = new();
     public override bool CheckAccountExistance(string account)
     {
