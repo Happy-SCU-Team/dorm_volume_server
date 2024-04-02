@@ -24,3 +24,17 @@ public struct ScheduleSegment
     public int start_time { set; get; }
     public int end_time { set; get; }
 }
+public enum SettingChangedType
+{
+    name_modify,segments_modify,
+}
+public class SettingChangedEvent : EventArgs
+{
+    public SettingChangedEvent(string account,SettingChangedType type)
+    {
+        this.account = account;
+        this.SettingChangedType = type;
+    }
+    string account;
+    SettingChangedType SettingChangedType;
+}

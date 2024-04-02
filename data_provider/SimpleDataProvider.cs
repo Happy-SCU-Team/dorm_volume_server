@@ -35,13 +35,16 @@ public class SimpleDataProvider : DataProvider
 
     protected override void updateAccountNameDirectly(string account, string new_name)
     {
+
         data.Add(new_name, data[account]);
         data.Remove(account);
     }
 
     protected override void UpdateScheduleSegmentDirectly(string account, ScheduleSegment[] scheduleSegment)
     {
+
         data[account].scheduleSegments = scheduleSegment;
+        
     }
 }
 

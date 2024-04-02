@@ -6,6 +6,15 @@ namespace DataProvider;
 
 public abstract class DataProvider
 {
+    public event EventHandler<SettingChangedEvent> OnSettingChanged;
+    protected void InvokeSettingChanged(SettingChangedEvent @event)
+    {
+        OnSettingChanged.Invoke(this, @event);
+    }
+    protected void InvokeSettingChanged(string account,SettingChangedType type)
+    {
+        InvokeSettingChanged(new SettingChangedEvent(account, type));
+    }
     public abstract void RecordVolumeInfo(string account,VolumeInfo volumeInfo);
     public bool UpdateScheduleSegment(string account,ScheduleSegment[] scheduleSegment)
     {
@@ -23,6 +32,7 @@ public abstract class DataProvider
         }
         if(flag)
         {
+            InvokeSettingChanged(new SettingChangedEvent(account,SettingChangedType.segments_modify));
             UpdateScheduleSegmentDirectly(account,scheduleSegment);
             return true;
         }
@@ -38,6 +48,7 @@ public abstract class DataProvider
         {
             return "this name already exists";
         }
+        InvokeSettingChanged(account, SettingChangedType.name_modify);
         updateAccountNameDirectly(account, new_name);
         return null;
     }
