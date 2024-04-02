@@ -29,7 +29,7 @@ public class Server
 
         //check
         var checkApi = app.MapGroup("/check");
-        checkApi.MapGet("/account/[q]",(string name) =>{
+        checkApi.MapGet("/account/[name]",(string name) =>{
             return provider.CheckAccountExistance(name);
         });
 

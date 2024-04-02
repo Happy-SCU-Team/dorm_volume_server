@@ -14,10 +14,9 @@ public class DataTypes
 public enum VolumeType { alert,info}
 public struct VolumeInfo
 {
-    public string account;
     public float volume;
     public VolumeType volumeType;
-    public int time;
+    public DateTime time;
     public int dormId;
 }
 public struct ScheduleSegment
