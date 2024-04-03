@@ -33,7 +33,7 @@ public class EventManager
     public static void Add(EventMessage eventMessage)
     {
         Instance.events.Add(eventMessage);
-        Instance.onEventRecord.Invoke(this,new EventEvent { EventMessage=eventMessage});
+        Instance.onEventRecord.Invoke(Instance,new EventEvent { EventMessage=eventMessage});
     }
 }
 public enum Level

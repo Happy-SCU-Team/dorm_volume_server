@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "protocol", "protocol\protoc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "web_server", "web_server\web_server.csproj", "{31063566-0841-405D-A1F2-A0431950F2A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventManager", "EventManger\EventManager.csproj", "{F9420C49-2037-4469-9204-0DFBB32623A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventManager", "EventManger\EventManager.csproj", "{F9420C49-2037-4469-9204-0DFBB32623A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCode", "TestCode\TestCode.csproj", "{436D3F55-44FD-471B-9F2B-78CB87F26FE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{F9420C49-2037-4469-9204-0DFBB32623A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9420C49-2037-4469-9204-0DFBB32623A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9420C49-2037-4469-9204-0DFBB32623A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{436D3F55-44FD-471B-9F2B-78CB87F26FE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{436D3F55-44FD-471B-9F2B-78CB87F26FE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{436D3F55-44FD-471B-9F2B-78CB87F26FE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{436D3F55-44FD-471B-9F2B-78CB87F26FE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
