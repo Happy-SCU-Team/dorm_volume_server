@@ -3,7 +3,7 @@
 public static class Client2Server
 {
     public const string volume = "volume";
-    public const string login = "schedule";
+    public const string login = "login";
     public const string request = "request";
     public static class Request
     {
