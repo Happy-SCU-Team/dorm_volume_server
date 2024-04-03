@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\data_provider\data_provider.csproj" />
+    <ProjectReference Include="..\EventManger\EventManger.csproj" />
   </ItemGroup>
 
 </Project>
