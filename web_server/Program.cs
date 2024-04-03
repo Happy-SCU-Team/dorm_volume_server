@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
 using Protocol;
+using EventManagerLib;
+
 
 namespace web_server;
+
 
 
 public class Server
@@ -72,10 +75,7 @@ public class Server
                 return Results.NotFound();
             }
         });
-
-
-
-
+        EventManager.Add("RESTful API is launching");
         app.Run();
     }
 }

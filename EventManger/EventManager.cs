@@ -1,11 +1,13 @@
-﻿namespace EventManger;
+﻿namespace EventManagerLib;
 
 public class EventManager
 {
     public event EventHandler<EventEvent> onEventRecord;
-    public Level DisplayLevel { get; set; } = Level.Warn;
+    public static Level DisplayLevel { get; set; } = Level.Warn;
     private List<EventMessage> events = new();
-    public EventManager Instance { get; private set; } = new();
+    public static EventManager Instance { get; private set; } = new();
+
+    public IEnumerable<EventMessage> Events => events;
 
     private EventManager()
     {
@@ -20,18 +22,18 @@ public class EventManager
         }
     }
 
-    public void Add(string message)
+    public static void  Add(string message)
     {
         Add(Level.Info,message);
     }
-    public void Add(Level level,string message)
+    public static void Add(Level level,string message)
     {
         Add(new EventMessage { level=level,message=message});
     }
-    public void Add(EventMessage eventMessage)
+    public static void Add(EventMessage eventMessage)
     {
-        events.Add(eventMessage);
-        onEventRecord.Invoke(this,new EventEvent { EventMessage=eventMessage});
+        Instance.events.Add(eventMessage);
+        Instance.onEventRecord.Invoke(this,new EventEvent { EventMessage=eventMessage});
     }
 }
 public enum Level

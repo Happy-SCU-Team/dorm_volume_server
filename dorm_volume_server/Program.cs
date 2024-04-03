@@ -1,9 +1,15 @@
 ﻿//launch web server
 
 using DataProvider;
+using EventManagerLib;
 
-var dataProvider=new SimpleDataProvider(isDebug:true);
+bool isDebug = true;
 
+var dataProvider=new SimpleDataProvider(isDebug: isDebug);
+if (isDebug)
+{
+    EventManager.DisplayLevel = Level.Info;
+}
 
 
 Console.WriteLine("---Accounts---");
@@ -18,3 +24,4 @@ var webServerThread = new Thread(() => {
 });
 webServerThread.IsBackground=false;
 webServerThread.Start();
+

@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "protocol", "protocol\protoc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "web_server", "web_server\web_server.csproj", "{31063566-0841-405D-A1F2-A0431950F2A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventManger", "EventManger\EventManger.csproj", "{F9420C49-2037-4469-9204-0DFBB32623A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventManager", "EventManger\EventManager.csproj", "{F9420C49-2037-4469-9204-0DFBB32623A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
