@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace dorm_volume_server;
-
+﻿using System.Net.Sockets;
 using System.Net;
-using System.Net.Sockets;
 using System.Text;
 
+namespace Conn;
 
 public class Connection
 {
@@ -21,6 +14,7 @@ public class Connection
         }*/
     public event onError? onError;
     public static int BufferSize { set; get; } = 1024;
+    private StreamReader reader;
     public static Connection connect(string ip, int port, MessageHander hander)
     {
         TcpClient client = new TcpClient();
@@ -33,7 +27,7 @@ public class Connection
     public readonly TcpClient TCPclient;
     //public CancellationTokenSource cts {  get; private set; }
     private NetworkStream stream;
-    public MessageHander messageHander { get; set; }
+    public MessageHander? messageHander { get; set; }
     public Connection(TcpClient client, MessageHander hander) : this(client)
     {
         this.messageHander = hander;
@@ -44,7 +38,7 @@ public class Connection
         //cts = new();
         this.TCPclient = client;
         stream = client.GetStream();
-
+        reader = new(stream);
     }
     public void StartReceive()
     {
@@ -53,8 +47,10 @@ public class Connection
     public void close()
     {
         //cts.Cancel();
+        reader.Close();
         stream.Close();
         TCPclient.Close();
+
     }
 
     public Task<int> receiveTask { get; private set; }
@@ -71,23 +67,7 @@ public class Connection
     {
         try
         {
-            while (true)
-            {
-                byte[] buffer = new byte[BufferSize];
-                int bytesRead;
-
-                while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
-                {
-                    string dataReceived = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    //Console.WriteLine($"Received: {dataReceived}");
-                    var m = dataReceived.Split(EOF);
-                    for (int i = 0; i < m.Length - 1; i++)
-                    {
-                        messageHander?.Invoke(m[i]);
-                    }
-
-                }
-            }
+            await ReceiveObsolete();
         }
         catch (TaskCanceledException)
         {
@@ -98,6 +78,46 @@ public class Connection
             Exception = ex;
             onError?.Invoke(ex);
             return -1;
+        }
+        return 0;
+        [Obsolete]
+        async Task ReceiveObsolete()
+        {
+            while (true)
+            {
+                byte[] buffer = new byte[BufferSize];
+                int bytesRead;
+
+                while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                {
+                    string dataReceived = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                    Console.WriteLine($"Received: {dataReceived}");
+                    var m = dataReceived.Split(EOF);
+                    for (int i = 0; i < m.Length - 1; i++)
+                    {
+                        messageHander?.Invoke(m[i]);
+                    }
+
+                }
+            }
+        }
+        async Task ReceiveCore()
+        {
+            while (true)
+            {
+                string c;
+                while (!string.IsNullOrEmpty(c = await reader.ReadToEndAsync()))
+                {
+                    string dataReceived = c;
+                    Console.WriteLine($"Received: {dataReceived}");
+                    var m = dataReceived.Split(EOF);
+                    for (int i = 0; i < m.Length - 1; i++)
+                    {
+                        messageHander?.Invoke(m[i]);
+                    }
+
+                }
+            }
         }
     }
 }
@@ -141,6 +161,11 @@ public class ConnectionServer
         server.Start();
         thread = new(() => Start(server));
         thread.Start();
+    }
+    public void Wait()
+    {
+        thread.Join();
+        thread_v6?.Join();
     }
 
 

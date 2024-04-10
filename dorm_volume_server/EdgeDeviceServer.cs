@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Conn;
 
 namespace dorm_volume_server;
 
@@ -35,6 +36,7 @@ public class Client
 {
     public Connection connection;
     public string? account;
+    public int dormID;
     public Client(Connection connection)
     {
         this.connection = connection;
@@ -51,10 +53,11 @@ public class Client
     private void onMessageReceived(string msg)
     {
         string type = JsonSerializer.Deserialize<BaseJson>(msg,BaseJson.jsonOptions)!.type!;
-        if (account == null)
+        if (account == null ||dormID==0)
         {        
             LoginJson login = JsonSerializer.Deserialize<LoginJson>(msg)!;
             account= login.account!;
+            dormID = login.dorm;
         }
         else
         {
@@ -62,6 +65,7 @@ public class Client
             {
                 case Protocol.Client2Server.volume:
                     VolumeJson volume = JsonSerializer.Deserialize<VolumeJson>(msg)!;
+
                     break;
                 case Protocol.Client2Server.request:
                     RequestJson request = JsonSerializer.Deserialize<RequestJson>(msg)!;

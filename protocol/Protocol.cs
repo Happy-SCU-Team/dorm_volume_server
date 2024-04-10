@@ -8,7 +8,11 @@ public static class Client2Server
     public static class Request
     {
         public const string schedule = "schedule";
-
+    }
+    public static class VolumeType
+    {
+        public const string alert = "alert";
+        public const string info = "info";
     }
 }
 

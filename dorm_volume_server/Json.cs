@@ -62,6 +62,7 @@ internal partial class VolumeJsonContext : JsonSerializerContext
 public record LoginJson : BaseJson
 {
     public string account;
+    public int dorm;
 
 
 }
