@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using System.Threading.Tasks;
 
-namespace dorm_volume_server;
+namespace Client2ServerJson;
 
 public record BaseJson
 {

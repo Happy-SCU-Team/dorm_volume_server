@@ -8,12 +8,8 @@ public class Connection
 {
     public Exception? Exception { get; private set; }
     public readonly string EOF = ((char)4).ToString();
-    /*    public Connection()
-        {
-            Console.Error.WriteLine("---O parameter constructor of Connection is only for test---");
-        }*/
     public event onError? onError;
-    public static int BufferSize { set; get; } = 1024;
+    public static int BufferSize { set; get; } = 4096;
     private StreamReader reader;
     public static Connection connect(string ip, int port, MessageHander hander)
     {

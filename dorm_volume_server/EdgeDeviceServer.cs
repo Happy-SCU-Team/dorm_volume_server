@@ -37,6 +37,10 @@ public class Client
     public Connection connection;
     public string? account;
     public int dormID;
+    private static string Serilize(Server2ClientJson.BaseJson json)
+    {
+        return JsonSerializer.Serialize(json,Server2ClientJson.BaseJson.jsonOptions);
+    }
     public Client(Connection connection)
     {
         this.connection = connection;
@@ -52,10 +56,10 @@ public class Client
     }
     private void onMessageReceived(string msg)
     {
-        string type = JsonSerializer.Deserialize<BaseJson>(msg,BaseJson.jsonOptions)!.type!;
+        string type = JsonSerializer.Deserialize<Client2ServerJson.BaseJson>(msg,Client2ServerJson.BaseJson.jsonOptions)!.type!;
         if (account == null ||dormID==0)
-        {        
-            LoginJson login = JsonSerializer.Deserialize<LoginJson>(msg)!;
+        {
+            Client2ServerJson.LoginJson login = JsonSerializer.Deserialize<Client2ServerJson.LoginJson>(msg, Client2ServerJson.BaseJson.jsonOptions)!;
             account= login.account!;
             dormID = login.dorm;
         }
@@ -64,14 +68,18 @@ public class Client
             switch (type)
             {
                 case Protocol.Client2Server.volume:
-                    VolumeJson volume = JsonSerializer.Deserialize<VolumeJson>(msg)!;
+                    Client2ServerJson.VolumeJson volume = 
+                        JsonSerializer.Deserialize<Client2ServerJson.VolumeJson>
+                        (msg, Client2ServerJson.BaseJson.jsonOptions)!;
 
                     break;
                 case Protocol.Client2Server.request:
-                    RequestJson request = JsonSerializer.Deserialize<RequestJson>(msg)!;
+                    Client2ServerJson.RequestJson request = 
+                        JsonSerializer.Deserialize<Client2ServerJson.RequestJson>
+                        (msg, Client2ServerJson.BaseJson.jsonOptions)!;
                     break;
                 default:
-                    EventManager.Add(Level.Info, "Unknown type " + type);
+                    EventManager.Add(Level.Warn, "Unknown type " + type);
                     break;
             }
         }

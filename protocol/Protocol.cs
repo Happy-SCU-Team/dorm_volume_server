@@ -24,6 +24,7 @@ public static class Server2Client
     {
         public const string schedule = "schedule";
         public const string account = "account";
+        public const string interval = "interval";
     }
 }
 public static class RESTfulAPI

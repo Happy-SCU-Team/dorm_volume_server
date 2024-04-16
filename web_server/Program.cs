@@ -14,6 +14,7 @@ public class Server
     {
         var builder = WebApplication.CreateSlimBuilder();
 
+        builder.WebHost.UseUrls("http://0.0.0.0:5000");
         builder.Services.ConfigureHttpJsonOptions(options =>
         {
             options.SerializerOptions.IncludeFields = true;
@@ -25,6 +26,14 @@ public class Server
             chain.Insert(0,isFailedJsonContext.Default);
             chain.Insert(0,IsExistJsonContext.Default);
 
+        });
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: "allow all",
+                              policy =>
+                              {
+                                  policy.AllowAnyOrigin().AllowAnyHeader();
+                              });
         });
 
         var app = builder.Build();
