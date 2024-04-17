@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
 using Protocol;
 using EventManagerLib;
+using System.Runtime.CompilerServices;
 
 
 namespace web_server;
@@ -10,6 +11,8 @@ namespace web_server;
 
 public class Server
 {
+    public static event EventHandler<string>? onSettingChanged;
+    public static event EventHandler<(string, string)>? onNameUpdated; 
     public static void Launch(DataProvider.DataProvider provider)
     {
         var builder = WebApplication.CreateSlimBuilder();
@@ -25,6 +28,7 @@ public class Server
             chain.Insert(0,SegmentContext.Default);
             chain.Insert(0,isFailedJsonContext.Default);
             chain.Insert(0,IsExistJsonContext.Default);
+            chain.Insert(0, UpdateIntervalContext.Default);
 
         });
         builder.Services.AddCors(options =>
@@ -57,6 +61,7 @@ public class Server
             {
                 msg.failed_message = flag!;
             }
+            onNameUpdated?.Invoke(null,(updateAccount.account,updateAccount.new_account));
             return Results.Ok(msg);
         });
 
@@ -69,7 +74,13 @@ public class Server
             {
                 msg.failed_message = "the segment is invaild";
             }
+            onSettingChanged?.Invoke(null,updateSchedule.account);
             return Results.Ok(msg);
+        });
+        app.MapPost(RESTfulAPI.Update_Interval,(UpdateInterval UpdateInterval) =>
+        {
+            provider.UpdateInterval(UpdateInterval.account,UpdateInterval.interval);
+            onSettingChanged?.Invoke(null, UpdateInterval.account);
         });
 
         //get

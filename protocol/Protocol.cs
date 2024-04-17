@@ -33,4 +33,5 @@ public static class RESTfulAPI
     public const string Update_Schedule = "/update/schedule";
     public const string Check_Account = "/check/account/{q}";
     public const string Get_Schedule = "/{account}/schedule";
+    public const string Update_Interval = "/update/interval";
 }

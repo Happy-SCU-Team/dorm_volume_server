@@ -91,10 +91,21 @@ public class SimpleDataProvider : DataProvider
         data[account].scheduleSegments = scheduleSegment;
         save();
     }
+
+    public override void UpdateInterval(string account, int interval)
+    {
+        data[account].interval = interval;
+    }
+
+    public override int getInterval(string account)
+    {
+        return data[account].interval;
+    }
 }
 
 class SimpleIndividualData
 {
+    public int interval=30;
     public List<VolumeInfo> volumeInfos = new List<VolumeInfo>();
     public ScheduleSegment[] scheduleSegments = Array.Empty<ScheduleSegment>();
 }

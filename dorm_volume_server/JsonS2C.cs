@@ -63,7 +63,7 @@ public record ScheduleUpdateJson : UpdateJson
     {
         content=Server2Client.Update.schedule;
     }
-    ScheduleSegment[] schedule;
+    public ScheduleSegment[] schedule;
 }
 [JsonSerializable(typeof(ScheduleUpdateJson))]
 internal partial class ScheduleUpdateJsonContext2 : JsonSerializerContext
@@ -76,7 +76,7 @@ public record AccountUpdateJson : UpdateJson
     {
         content = Server2Client.Update.account;
     }
-    string account;
+    public string account;
 }
 [JsonSerializable(typeof(AccountUpdateJson))]
 internal partial class AccountUpdateJsonContext2 : JsonSerializerContext
@@ -89,7 +89,7 @@ public record IntervalUpdateJson : UpdateJson
     {
         content = Server2Client.Update.interval;
     }
-    int interval;
+    public int interval;
 }
 [JsonSerializable(typeof(IntervalUpdateJson))]
 internal partial class IntervalUpdateJsonContext2 : JsonSerializerContext
@@ -102,7 +102,7 @@ public record MuteJson : BaseJson
     {
         type=Server2Client.mute;
     }
-    string time;
+    public string time;
 }
 [JsonSerializable(typeof(MuteJson))]
 internal partial class MuteJsonContext2 : JsonSerializerContext

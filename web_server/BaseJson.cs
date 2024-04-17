@@ -39,3 +39,13 @@ internal partial class SegmentContext : JsonSerializerContext
 {
 
 }
+
+public record UpdateInterval : BaseJson
+{
+    public int interval;
+}
+[JsonSerializable(typeof(UpdateInterval))]
+internal partial class UpdateIntervalContext : JsonSerializerContext
+{
+
+}

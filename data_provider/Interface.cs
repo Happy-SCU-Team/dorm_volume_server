@@ -16,6 +16,8 @@ public abstract class DataProvider
         InvokeSettingChanged(new SettingChangedEvent(account, type));
     }
     public abstract void RecordVolumeInfo(string account,VolumeInfo volumeInfo);
+    public abstract void UpdateInterval(string account,int interval);
+    public abstract int getInterval(string account);
     public bool UpdateScheduleSegment(string account,ScheduleSegment[] scheduleSegment)
     {
         if (scheduleSegment.Length==0)
