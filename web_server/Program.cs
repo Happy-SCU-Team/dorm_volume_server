@@ -79,8 +79,20 @@ public class Server
         });
         app.MapPost(RESTfulAPI.Update_Interval,(UpdateInterval UpdateInterval) =>
         {
-            provider.UpdateInterval(UpdateInterval.account,UpdateInterval.interval);
+            var msg = new IsFailedJson();
+            try
+            {
+                provider.UpdateInterval(UpdateInterval.account,UpdateInterval.interval);
+                msg.is_success = true;
+            }
+            catch(Exception e)
+            {
+                msg.is_success = false;
+                msg.failed_message=e.Message;
+            }
+            
             onSettingChanged?.Invoke(null, UpdateInterval.account);
+            return Results.Ok(msg);
         });
 
         //get
@@ -94,6 +106,9 @@ public class Server
             {
                 return Results.NotFound();
             }
+        });
+        app.MapGet(RESTfulAPI.Get_All_Account, () => { 
+            return Results.Ok(provider.GetAccounts());
         });
         EventManager.Add("RESTful API is launching");
         app.Run();

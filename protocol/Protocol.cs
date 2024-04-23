@@ -29,6 +29,7 @@ public static class Server2Client
 }
 public static class RESTfulAPI
 {
+    public const string Get_All_Account = "/all_account";
     public const string Update_Account = "/update/account";
     public const string Update_Schedule = "/update/schedule";
     public const string Check_Account = "/check/account/{q}";
