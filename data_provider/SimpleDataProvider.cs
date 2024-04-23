@@ -95,6 +95,7 @@ public class SimpleDataProvider : DataProvider
     public override void UpdateInterval(string account, int interval)
     {
         data[account].interval = interval;
+        save();
     }
 
     public override int getInterval(string account)
