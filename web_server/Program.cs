@@ -29,6 +29,7 @@ public class Server
             chain.Insert(0,isFailedJsonContext.Default);
             chain.Insert(0,IsExistJsonContext.Default);
             chain.Insert(0, UpdateIntervalContext.Default);
+            chain.Insert(0, IEnumerableStringContext.Default);
 
         });
         builder.Services.AddCors(options =>

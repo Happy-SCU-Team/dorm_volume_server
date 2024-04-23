@@ -49,3 +49,9 @@ internal partial class UpdateIntervalContext : JsonSerializerContext
 {
 
 }
+
+[JsonSerializable(typeof(IEnumerable<string>))]
+internal partial class IEnumerableStringContext : JsonSerializerContext
+{
+
+}
