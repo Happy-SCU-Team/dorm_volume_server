@@ -24,6 +24,7 @@ Console.WriteLine("--------------");
 //-----WEB-----
 web_server.Server.onSettingChanged += Server_onSettingChanged;
 web_server.Server.onNameUpdated += Server_onNameUpdated;
+web_server.Server.isOnline = edgeDeviceServer.isOnline;
 
 void Server_onNameUpdated(object? sender, (string, string) e)
 {

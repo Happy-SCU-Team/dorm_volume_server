@@ -21,6 +21,17 @@ internal class EdgeDeviceServer
         connectionServer = new(port, ConnectHandler);
         this.dataProvider = dataProvider;
     }
+    public bool isOnline(string account)
+    {
+        foreach (Client client in connections)
+        {
+            if (client.account == account)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     public void Shutdown()
     {
         connectionServer.close();

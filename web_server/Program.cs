@@ -8,11 +8,14 @@ using System.Runtime.CompilerServices;
 namespace web_server;
 
 
+public delegate bool Check(string id);
 
 public class Server
 {
     public static event EventHandler<string>? onSettingChanged;
-    public static event EventHandler<(string, string)>? onNameUpdated; 
+    public static event EventHandler<(string, string)>? onNameUpdated;
+    public static Check? isOnline;
+    
     public static void Launch(DataProvider.DataProvider provider)
     {
         var builder = WebApplication.CreateSlimBuilder();
@@ -55,13 +58,22 @@ public class Server
 
         //update
         app.MapPost(RESTfulAPI.Update_Account, (UpdateAccountName updateAccount) => {
-            var flag=provider.UpdateAccountName(updateAccount.account, updateAccount.new_account);
             var msg = new IsFailedJson();
-            msg.is_success = flag==null;
-            if (!msg.is_success)
+            if (isOnline?.Invoke(updateAccount.account) == true)
             {
-                msg.failed_message = flag!;
+                var flag=provider.UpdateAccountName(updateAccount.account, updateAccount.new_account);
+                msg.is_success = flag == null;
+                if (!msg.is_success)
+                {
+                    msg.failed_message = flag!;
+                }
             }
+            else
+            {
+                msg.is_success=false;
+                msg.failed_message = "device not online ,you can not modify account name";
+            }
+            
             onNameUpdated?.Invoke(null,(updateAccount.account,updateAccount.new_account));
             return Results.Ok(msg);
         });
