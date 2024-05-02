@@ -96,6 +96,7 @@ public class Client
                 EventManager.Add(Level.Warn, "server can not handle client message " + ex.ToString());
             }
         };
+        connection.StartReceive();
         this.dataProvider = dataProvider;
     }
     private void onMessageReceived(string msg)
@@ -106,6 +107,10 @@ public class Client
             Client2ServerJson.LoginJson login = JsonSerializer.Deserialize<Client2ServerJson.LoginJson>(msg, Client2ServerJson.BaseJson.jsonOptions)!;
             account= login.account!;
             dormID = login.dorm;
+            if (dataProvider.CheckAccountExistance(account) == false)
+            {
+                dataProvider.register(account);
+            }
         }
         else
         {

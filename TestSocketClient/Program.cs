@@ -1,6 +1,6 @@
 ﻿using Conn;
 
-var conn = Connection.connect("127.0.0.1",12345, messageHanlder);
+var conn = Connection.connect("127.0.0.1",23456, messageHanlder);
 conn.StartReceive();
 void messageHanlder(string m)
 {
