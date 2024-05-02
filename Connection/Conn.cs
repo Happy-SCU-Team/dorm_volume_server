@@ -54,9 +54,9 @@ public class Connection
     public Task<int> receiveTask { get; private set; }
     public virtual async void send(string msg)
     {
-#if DEBUG
+
         Console.WriteLine("Sending: " + msg);
-#endif
+
         byte[] responseData = Encoding.UTF8.GetBytes(msg + EOF);
         await stream.WriteAsync(responseData, 0, responseData.Length);
         await stream.FlushAsync();

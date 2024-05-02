@@ -105,9 +105,9 @@ public class Client
         if (account == null ||dormID==0)
         {
             Client2ServerJson.LoginJson login = JsonSerializer.Deserialize<Client2ServerJson.LoginJson>(msg, Client2ServerJson.BaseJson.jsonOptions)!;
-            account= login.account!;
+            account= login.account;
             dormID = login.dorm;
-            if (dataProvider.CheckAccountExistance(account) == false)
+            if (account != null &&dataProvider.CheckAccountExistance(account) == false)
             {
                 dataProvider.register(account);
             }

@@ -1,7 +1,7 @@
 ﻿using Conn;
 
 //124.221.108.135
-var conn = Connection.connect("127.0.0.1", 23456, messageHanlder);
+var conn = Connection.connect("124.221.108.135", 23456, messageHanlder);
 conn.StartReceive();
 void messageHanlder(string m)
 {
