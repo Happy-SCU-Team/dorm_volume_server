@@ -7,7 +7,7 @@ namespace Conn;
 public class Connection
 {
     public Exception? Exception { get; private set; }
-    public readonly string EOF = ((char)4).ToString();
+    public readonly string EOF = "\n";
     public event onError? onError;
     public static int BufferSize { set; get; } = 4096;
     private StreamReader reader;
@@ -102,15 +102,12 @@ public class Connection
             while (true)
             {
                 string c;
-                while (!string.IsNullOrEmpty(c = await reader.ReadToEndAsync()))
+                while (!string.IsNullOrEmpty(c = await reader.ReadLineAsync()))
                 {
                     string dataReceived = c;
                     Console.WriteLine($"Received: {dataReceived}");
-                    var m = dataReceived.Split(EOF);
-                    for (int i = 0; i < m.Length - 1; i++)
-                    {
-                        messageHander?.Invoke(m[i]);
-                    }
+                    messageHander?.Invoke(dataReceived);
+                    
 
                 }
             }
