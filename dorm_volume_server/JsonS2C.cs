@@ -33,6 +33,7 @@ public record BaseJson
     {
         IncludeFields = true,
         AllowTrailingCommas = true,
+        
     };
     public string type { set; get; } = string.Empty;
 }

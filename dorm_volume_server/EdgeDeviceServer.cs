@@ -74,13 +74,15 @@ public class Client
     public string? account;
     public int dormID;
     DataProvider.DataProvider dataProvider;
-    private void SendObject(Server2ClientJson.BaseJson json)
+    private void SendObject<T>(T json) where T : Server2ClientJson.BaseJson
     {
         connection.send(Serilize(json));
     }
-    private static string Serilize(Server2ClientJson.BaseJson json)
+    private static string Serilize<T>(T json)where T:Server2ClientJson.BaseJson
     {
-        return JsonSerializer.Serialize(json,Server2ClientJson.BaseJson.jsonOptions);
+        var result=JsonSerializer.Serialize(json,Server2ClientJson.BaseJson.jsonOptions);
+        //Console.WriteLine(result);
+        return result;
     }
     public Client(Connection connection, DataProvider.DataProvider dataProvider)
     {
