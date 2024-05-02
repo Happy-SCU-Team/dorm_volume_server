@@ -34,11 +34,13 @@ public class Connection
         //cts = new();
         this.TCPclient = client;
         stream = client.GetStream();
-        reader = new(stream);
+        
     }
     public void StartReceive()
     {
+        reader = new(stream);
         receiveTask = receive();
+        
     }
     public void close()
     {
@@ -63,7 +65,8 @@ public class Connection
     {
         try
         {
-            await ReceiveObsolete();
+            //await ReceiveObsolete();
+            await ReceiveCore();
         }
         catch (TaskCanceledException)
         {
