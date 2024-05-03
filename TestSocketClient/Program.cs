@@ -20,4 +20,6 @@ var t = new Thread(() => {
 });
 t.Start();
 
+conn.receiveTask.Wait();
+
 t.IsBackground = false;

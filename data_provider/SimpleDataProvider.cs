@@ -35,10 +35,14 @@ public class SimpleDataProvider : DataProvider
     {
         IncludeFields = true,
     };
+    private Task? lastFileSaveTask;
     public async void save()
     {
         await using FileStream createStream = File.Create(FileName);
-        await JsonSerializer.SerializeAsync(createStream, data,options);
+        if (lastFileSaveTask == null || lastFileSaveTask.IsCompleted)
+        {
+            lastFileSaveTask = JsonSerializer.SerializeAsync(createStream, data, options);
+        }
     }
     public void load()
     {
