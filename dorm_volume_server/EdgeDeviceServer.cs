@@ -159,7 +159,7 @@ public class Client
         switch(request.content)
         {
             case Protocol.Client2Server.Request.schedule:
-                SendObject(new Server2ClientJson.ScheduleUpdateJson {
+                SendObject(new Server2ClientJson.ScheduleUpdateJson_new {
                    schedule=dataProvider.GetScheduleSegments(account!)
                 });
                 break;
@@ -178,9 +178,13 @@ public class Client
         SendObject(new Server2ClientJson.IntervalUpdateJson { 
             interval=dataProvider.getInterval(account!),
         });
-        SendObject(new Server2ClientJson.ScheduleUpdateJson
-        {
-            schedule=dataProvider.GetScheduleSegments(account!)
-        });
+        SendObject(
+            new Server2ClientJson.ScheduleUpdateJson_obsolete(
+                new Server2ClientJson.ScheduleUpdateJson_new
+                {
+                schedule=dataProvider.GetScheduleSegments(account!)
+                }
+            )
+        );
     }
 }

@@ -21,7 +21,8 @@ public record BaseJson
             UpdateJsonContext2.Default,
             ScheduleUpdateJsonContext2.Default,
             AccountUpdateJsonContext2.Default,
-            IntervalUpdateJsonContext2.Default
+            IntervalUpdateJsonContext2.Default,
+            ScheduleUpdateJson_obsoleteContext2.Default,
             ];
         foreach (var i in chains)
         {
@@ -58,19 +59,54 @@ internal partial class UpdateJsonContext2 : JsonSerializerContext
 
 }
 
-public record ScheduleUpdateJson : UpdateJson
+public record ScheduleUpdateJson_new : UpdateJson
 {
-    public ScheduleUpdateJson()
+    public ScheduleUpdateJson_new()
     {
         content=Server2Client.Update.schedule;
     }
     public ScheduleSegment[] schedule;
 }
-[JsonSerializable(typeof(ScheduleUpdateJson))]
+
+[JsonSerializable(typeof(ScheduleUpdateJson_new))]
 internal partial class ScheduleUpdateJsonContext2 : JsonSerializerContext
 {
 
 }
+public record ScheduleUpdateJson_obsolete : UpdateJson
+{
+
+    public ScheduleUpdateJson_obsolete(ScheduleUpdateJson_new scheduleUpdateJson_NEW)
+    {
+        content = Server2Client.Update.schedule;
+        schedule=new ScheduleSegmentObsolete[scheduleUpdateJson_NEW.schedule.Length];
+        for(int i = 0; i < scheduleUpdateJson_NEW.schedule.Length; i++)
+        {
+            int hour_s = scheduleUpdateJson_NEW.schedule[i].start_time / 60;
+            int min_s = scheduleUpdateJson_NEW.schedule[i].start_time % 60;
+
+            int hour_e = scheduleUpdateJson_NEW.schedule[i].end_time / 60;
+            int min_e = scheduleUpdateJson_NEW.schedule[i].end_time % 60;
+            schedule[i] = new ScheduleSegmentObsolete() {
+                start_time = $"{hour_s}:{min_s}",
+                end_time = $"{hour_e}:{min_e}"
+            };
+        }
+    }
+    public ScheduleSegmentObsolete[] schedule;
+}
+public struct ScheduleSegmentObsolete
+{
+    public string start_time;
+    public string end_time;
+}
+[JsonSerializable(typeof(ScheduleUpdateJson_obsolete))]
+internal partial class ScheduleUpdateJson_obsoleteContext2 : JsonSerializerContext
+{
+
+}
+
+
 public record AccountUpdateJson : UpdateJson
 {
     public AccountUpdateJson()

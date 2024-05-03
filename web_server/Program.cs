@@ -96,6 +96,7 @@ public class Server
             try
             {
                 provider.UpdateInterval(UpdateInterval.account,UpdateInterval.interval);
+                onSettingChanged?.Invoke(null,UpdateInterval.account);
                 msg.is_success = true;
             }
             catch(Exception e)
