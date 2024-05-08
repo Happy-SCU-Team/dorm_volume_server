@@ -140,9 +140,11 @@ public class Client
     {
         VolumeType volumeType = 
             volume.type == VolumeType.alert.ToString() ? VolumeType.alert : VolumeType.info;
+        DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));//当地时区
+        var time = startTime.AddSeconds(volume.time);
         var volumeInfo = new VolumeInfo
         {
-            time = new DateTime(volume.time),
+            time = time,
             volumeType = volumeType,
             volume = volume.volume,
             dormId = volume.dorm,

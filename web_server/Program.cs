@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Protocol;
 using EventManagerLib;
 using System.Runtime.CompilerServices;
+using DataProvider;
 
 
 namespace web_server;
@@ -34,6 +35,7 @@ public class Server
             chain.Insert(0, UpdateIntervalContext.Default);
             chain.Insert(0, IEnumerableStringContext.Default);
             chain.Insert(0, VolumeInfosJsonContext.Default);
+            chain.Insert(0, VolumeInfoSendJsonContext.Default);
 
         });
         builder.Services.AddCors(options =>
@@ -126,11 +128,22 @@ public class Server
             return Results.Ok(provider.GetAccounts());
         });
         app.MapGet(RESTfulAPI.Get_History, (string account) => {
-            var result = provider.GetVolumeInfo(account);
+            var info = provider.GetVolumeInfo(account);
+            
+            return Results.Ok(convert(info));
         });
+
+       
 
         EventManager.Add("RESTful API is launching");
         app.Run();
+    }
+    private static IEnumerable<VolumeInfoSend> convert(IEnumerable<VolumeInfo> volumeInfo)
+    {
+        foreach(var i in volumeInfo)
+        {
+            yield return new VolumeInfoSend(i);
+        }
     }
 }
 

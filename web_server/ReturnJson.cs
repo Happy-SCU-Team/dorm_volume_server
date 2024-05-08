@@ -27,3 +27,21 @@ internal partial class VolumeInfosJsonContext : JsonSerializerContext
 {
 
 }
+public struct VolumeInfoSend
+{
+    public long time;
+    public string volume_type;
+    public float volume;
+    public int dorm_id;
+    public VolumeInfoSend(VolumeInfo volumeInfo) {
+        time = (long)(volumeInfo.time - new DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds;
+        volume_type = volumeInfo.volumeType.ToString();
+        volume=volumeInfo.volume;
+        dorm_id=volumeInfo.dormId;
+    }
+}
+[JsonSerializable(typeof(IEnumerable<VolumeInfoSend>))]
+internal partial class VolumeInfoSendJsonContext : JsonSerializerContext
+{
+
+}
