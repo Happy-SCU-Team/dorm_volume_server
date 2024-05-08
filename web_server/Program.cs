@@ -33,6 +33,7 @@ public class Server
             chain.Insert(0,IsExistJsonContext.Default);
             chain.Insert(0, UpdateIntervalContext.Default);
             chain.Insert(0, IEnumerableStringContext.Default);
+            chain.Insert(0, VolumeInfosJsonContext.Default);
 
         });
         builder.Services.AddCors(options =>
@@ -124,6 +125,10 @@ public class Server
         app.MapGet(RESTfulAPI.Get_All_Account, () => { 
             return Results.Ok(provider.GetAccounts());
         });
+        app.MapGet(RESTfulAPI.Get_History, (string account) => {
+            var result = provider.GetVolumeInfo(account);
+        });
+
         EventManager.Add("RESTful API is launching");
         app.Run();
     }

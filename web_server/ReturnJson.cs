@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using DataProvider;
+using System.Text.Json.Serialization;
 
 namespace web_server;
 
@@ -16,6 +17,13 @@ internal partial class isFailedJsonContext : JsonSerializerContext
 public record IsExistJson(bool is_exist);
 [JsonSerializable(typeof(IsExistJson))]
 internal partial class IsExistJsonContext : JsonSerializerContext
+{
+
+}
+
+
+[JsonSerializable(typeof(IEnumerable<VolumeInfo>))]
+internal partial class VolumeInfosJsonContext : JsonSerializerContext
 {
 
 }

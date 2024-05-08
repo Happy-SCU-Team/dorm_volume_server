@@ -81,6 +81,7 @@ public abstract class DataProvider
         register("西苑6舍五单元103");
         register("west_dorm");
     }
+    public abstract IEnumerable<VolumeInfo> GetVolumeInfo(string account);
 
     //----------private------------
     protected abstract void updateAccountNameDirectly(string account, string new_name);

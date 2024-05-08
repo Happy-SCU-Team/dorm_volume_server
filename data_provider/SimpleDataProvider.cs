@@ -106,6 +106,11 @@ public class SimpleDataProvider : DataProvider
     {
         return data[account].interval;
     }
+
+    public override IEnumerable<VolumeInfo> GetVolumeInfo(string account)
+    {
+        return data[account].volumeInfos;
+    }
 }
 
 class SimpleIndividualData
