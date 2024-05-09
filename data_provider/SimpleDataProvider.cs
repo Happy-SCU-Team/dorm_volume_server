@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Runtime.InteropServices;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace DataProvider;
@@ -10,6 +11,7 @@ public class SimpleDataProvider : DataProvider
         try
         {
             load();
+            //fixWrongTime();
         }
         catch
         {
@@ -36,12 +38,14 @@ public class SimpleDataProvider : DataProvider
         IncludeFields = true,
     };
     private Task? lastFileSaveTask;
-    public async void save()
+    public async Task save()
     {
+        var result=JsonSerializer.Serialize(data, options);
         await using FileStream createStream = File.Create(FileName);
         if (lastFileSaveTask == null || lastFileSaveTask.IsCompleted)
         {
             lastFileSaveTask = JsonSerializer.SerializeAsync(createStream, data, options);
+            await lastFileSaveTask;
         }
     }
     public void load()
@@ -110,6 +114,26 @@ public class SimpleDataProvider : DataProvider
     public override IEnumerable<VolumeInfo> GetVolumeInfo(string account)
     {
         return data[account].volumeInfos;
+    }
+    [Obsolete]
+    public async void fixWrongTime()
+    {
+        _modify();
+        await save();
+        Console.WriteLine("Fix wrong time");
+    }
+    private void _modify()
+    {
+        foreach (var i in data.Values)
+        {
+            Span<VolumeInfo> volumeinfos = CollectionsMarshal.AsSpan(i.volumeInfos);
+            for(int j=0; j < volumeinfos.Length; j++)
+            {
+                var num= volumeinfos[j].time.Ticks;
+                var startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));//当地时区
+                volumeinfos[j].time=startTime.AddSeconds(num);
+            }
+        }
     }
 }
 

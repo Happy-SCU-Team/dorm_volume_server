@@ -136,11 +136,12 @@ public class Client
             }
         }
     }
+    private readonly DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));//当地时区
     void handleVolume(Client2ServerJson.VolumeJson volume)
     {
         VolumeType volumeType = 
             volume.type == VolumeType.alert.ToString() ? VolumeType.alert : VolumeType.info;
-        DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));//当地时区
+        
         var time = startTime.AddSeconds(volume.time);
         var volumeInfo = new VolumeInfo
         {
